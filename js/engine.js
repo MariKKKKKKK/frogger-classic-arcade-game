@@ -14,12 +14,12 @@
  * a little simpler to work with.
  */
 
-var Engine = (function (global) {
+let Engine = (function (global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
      */
-    var doc = global.document,
+    let doc = global.document,
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
@@ -39,7 +39,7 @@ var Engine = (function (global) {
          * would be the same for everyone (regardless of how fast their
          * computer is) - hurray time!
          */
-        var now = Date.now(),
+        let now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
 
@@ -79,8 +79,47 @@ var Engine = (function (global) {
      * functionality this way (you could just implement collision detection
      * on the entities themselves within your app.js file).
      */
+
+    function checkCollisionBetweenPlayerAndEnemy() {
+
+        let areCollided;
+        let isCollidedWithEnemy1X =
+            ((player.x - Math.floor(enemy1.x)) < 75)
+            && ((player.x - Math.floor(enemy1.x)) > -75);
+        let isCollidedWithEnemy2X =
+            ((player.x - Math.floor(enemy2.x)) < 75)
+            && ((player.x - Math.floor(enemy2.x)) > -75);
+        let isCollidedWithEnemy3X =
+            ((player.x - Math.floor(enemy3.x) < 75)
+                && ((player.x - Math.floor(enemy3.x)) > -75));
+        let isCollidedWithEnemy1Y =
+            ((player.y - Math.floor(enemy1.y)) < 20)
+            && ((player.y - Math.floor(enemy1.y)) > -20);
+        let isCollidedWithEnemy2Y =
+            ((player.y - Math.floor(enemy2.y)) < 20)
+            && ((player.y - Math.floor(enemy2.y)) > -20);
+        let isCollidedWithEnemy3Y =
+            ((player.y - Math.floor(enemy3.y)) < 20)
+            && ((player.y - Math.floor(enemy3.y)) > -20);
+
+        areCollided = 
+        (isCollidedWithEnemy1X && isCollidedWithEnemy1Y) 
+        || (isCollidedWithEnemy2X && isCollidedWithEnemy2Y)
+        || (isCollidedWithEnemy3X && isCollidedWithEnemy3Y);
+        if (areCollided) {
+            player.resetToInitialPos();
+            alert(`L: Player's pos ${player.x} ${player.y}
+               Enemy1 ${enemy1.x}, ${enemy1.y} 
+               Enemy2 ${enemy2.x}, ${enemy2.y}
+               Enemy3 ${enemy3.x}, ${enemy3.y}
+            `);
+        }
+
+
+    }
     function update(dt) {
         updateEntities(dt);
+        checkCollisionBetweenPlayerAndEnemy();
         // checkCollisions();
     }
 
@@ -108,7 +147,7 @@ var Engine = (function (global) {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
-        var rowImages = [
+        let rowImages = [
             'images/water-block.png',   // Top row is water
             'images/stone-block.png',   // Row 1 of 3 of stone
             'images/stone-block.png',   // Row 2 of 3 of stone
