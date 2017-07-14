@@ -103,9 +103,13 @@ class Player {
             y -= 80;
             this.y = y;
             let iSCollided = y === 0;
+            let self = this;
             if (iSCollided) {
-                this.resetToInitialPos();
-                alert("you won the game");
+                setTimeout(function(){
+                    self.resetToInitialPos();
+                    
+                }, 300);
+                
             }
         }
 
@@ -114,6 +118,7 @@ class Player {
 
    /**
    * @description  resets player to initial position when he has won and has lost the game.
+   * @method 
    */
     resetToInitialPos() {
         let { x, y } = playerInitialPosition;

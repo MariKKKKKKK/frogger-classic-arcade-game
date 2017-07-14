@@ -99,14 +99,16 @@ let Engine = (function (global) {
             || (isCollidedWithEnemy2X && isCollidedWithEnemy2Y)
             || (isCollidedWithEnemy3X && isCollidedWithEnemy3Y);
         if (areCollided) {
-              alert(`Lost: Player's pos ${player.x} ${player.y}
-               Enemy1 ${enemy1.x}, ${enemy1.y} 
-               Enemy2 ${enemy2.x}, ${enemy2.y}
-               Enemy3 ${enemy3.x}, ${enemy3.y}
-            `);
-            player.resetToInitialPos();
+           
+            
+           setTimeout(function(){
+              
+               player.resetToInitialPos();
+           }, 200);
+              
           
         }
+       
     }
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
