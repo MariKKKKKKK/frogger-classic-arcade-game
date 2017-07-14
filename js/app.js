@@ -1,59 +1,82 @@
 
+/** Class representing an Enemy */
 class Enemy {
+    /**
+     * Create an Enemy.
+     * @param {object} position - represents starting position with x and y variables
+     * @param {number} speed - represents how fast our enemy can move 
+     */
     constructor(position, speed) {
-        // Variables applied to each of our instances go here,
-        // we've provided one for you to get started
-        // The image/sprite for our enemies, this uses
-        // a helper we've provided to easily load images
+        /**
+        * 
+        * @var {string} this.sprite - represents an image path  for displaying enemy bugs 
+        */
         this.sprite = 'images/enemy-bug.png';
         let { x, y } = position;
         this.x = x;
         this.y = y;
         this.speed = speed;
     }
-    // Update the enemy's position, required method for game
-    // Parameter: dt, a time delta between ticks
+
+    /**
+   * @description  Update the enemy's position
+   * @method 
+   * @param {date} dt - a time delta between ticks
+   */
     update(dt) {
         // You should multiply any movement by the dt parameter
         // which will ensure the game runs at the same speed for
         // all computers.
         this.x += this.speed * dt;
-        
+
         while (this.x > 450) {
             this.x = -50;
         }
     }
-    // Draw the enemy on the screen, required method for game
+    /**
+   * @description  Renders all the enemies on the screen
+   * @method 
+   */
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
-      
+
 }
 
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+/** Class representing a Player */
 class Player {
+     /**
+     * Creates a Player.
+     * @param {object} position - represents starting position with x and y variables
+     */
     constructor(position) {
+        /**
+         * @var {string} this.sprite - represents an image path  for displaying player
+         */
         let { x, y } = position;
         this.x = x;
         this.y = y;
         this.sprite = 'images/char-boy.png';
     }
-    update() {
-
-    }
+    /**
+    * @description  Renders player on the screen
+    * @method 
+    */
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
-
+  /**
+  * @description  handles keyboard input and checks for collisions with barriers. Handles collision with the water.
+  * @method 
+  * @param {string} key the name of pressed key
+  */
     handleInput(key) {
 
         if (key === 'left') {
             let x = this.x;
             x -= 101;
-            let isNotCollided = (x !== -101) ? true : false;
+            let isNotCollided = x !== -101;
             if (isNotCollided) {
                 this.x = x;
             }
@@ -61,7 +84,7 @@ class Player {
         else if (key === 'right') {
             let x = this.x;
             x += 101;
-            let isNotCollided = (x !== 505) ? true : false;
+            let isNotCollided = x !== 505;
             if (isNotCollided) {
                 this.x = x;
             }
@@ -70,7 +93,7 @@ class Player {
 
             let y = this.y;
             y += 80;
-            let isNotCollided = (y !== 480) ? true : false;
+            let isNotCollided = y !== 480;
             if (isNotCollided) {
                 this.y = y;
             }
@@ -79,7 +102,7 @@ class Player {
             let y = this.y;
             y -= 80;
             this.y = y;
-            let iSCollided = (y === 0) ? true : false;
+            let iSCollided = y === 0;
             if (iSCollided) {
                 this.resetToInitialPos();
                 alert("you won the game");
@@ -88,8 +111,10 @@ class Player {
 
         console.log(`x: ${this.x} y: ${this.y} Coll:`);
     }
-  
-    
+
+   /**
+   * @description  resets player to initial position when he has won and has lost the game.
+   */
     resetToInitialPos() {
         let { x, y } = playerInitialPosition;
         this.x = x;

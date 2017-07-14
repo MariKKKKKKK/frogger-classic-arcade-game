@@ -69,19 +69,11 @@ let Engine = (function (global) {
         lastTime = Date.now();
         main();
     }
-
-    /* This function is called by main (our game loop) and itself calls all
-     * of the functions which may need to update entity's data. Based on how
-     * you implement your collision detection (when two entities occupy the
-     * same space, for instance when your character should die), you may find
-     * the need to add an additional function call here. For now, we've left
-     * it commented out - you may or may not want to implement this
-     * functionality this way (you could just implement collision detection
-     * on the entities themselves within your app.js file).
-     */
-
+    /** 
+    * @description checks for collision between enemy and player. If collision happened player lost the game.
+    * @function 
+    */
     function checkCollisionBetweenPlayerAndEnemy() {
-
         let areCollided;
         let isCollidedWithEnemy1X =
             ((player.x - Math.floor(enemy1.x)) < 75)
@@ -90,8 +82,8 @@ let Engine = (function (global) {
             ((player.x - Math.floor(enemy2.x)) < 75)
             && ((player.x - Math.floor(enemy2.x)) > -75);
         let isCollidedWithEnemy3X =
-            ((player.x - Math.floor(enemy3.x) < 75)
-                && ((player.x - Math.floor(enemy3.x)) > -75));
+            (player.x - Math.floor(enemy3.x) < 75)
+            && ((player.x - Math.floor(enemy3.x)) > -75);
         let isCollidedWithEnemy1Y =
             ((player.y - Math.floor(enemy1.y)) < 20)
             && ((player.y - Math.floor(enemy1.y)) > -20);
@@ -102,21 +94,31 @@ let Engine = (function (global) {
             ((player.y - Math.floor(enemy3.y)) < 20)
             && ((player.y - Math.floor(enemy3.y)) > -20);
 
-        areCollided = 
-        (isCollidedWithEnemy1X && isCollidedWithEnemy1Y) 
-        || (isCollidedWithEnemy2X && isCollidedWithEnemy2Y)
-        || (isCollidedWithEnemy3X && isCollidedWithEnemy3Y);
+        areCollided =
+            (isCollidedWithEnemy1X && isCollidedWithEnemy1Y)
+            || (isCollidedWithEnemy2X && isCollidedWithEnemy2Y)
+            || (isCollidedWithEnemy3X && isCollidedWithEnemy3Y);
         if (areCollided) {
-            player.resetToInitialPos();
-            alert(`L: Player's pos ${player.x} ${player.y}
+              alert(`Lost: Player's pos ${player.x} ${player.y}
                Enemy1 ${enemy1.x}, ${enemy1.y} 
                Enemy2 ${enemy2.x}, ${enemy2.y}
                Enemy3 ${enemy3.x}, ${enemy3.y}
             `);
+            player.resetToInitialPos();
+          
         }
-
-
     }
+    /* This function is called by main (our game loop) and itself calls all
+     * of the functions which may need to update entity's data. Based on how
+     * you implement your collision detection (when two entities occupy the
+     * same space, for instance when your character should die), you may find
+     * the need to add an additional function call here. For now, we've left
+     * it commented out - you may or may not want to implement this
+     * functionality this way (you could just implement collision detection
+     * on the entities themselves within your app.js file).
+     */
+
+    
     function update(dt) {
         updateEntities(dt);
         checkCollisionBetweenPlayerAndEnemy();
@@ -134,7 +136,7 @@ let Engine = (function (global) {
         allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
-        player.update();
+        
     }
 
     /* This function initially draws the "game level", it will then call
