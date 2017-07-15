@@ -70,11 +70,13 @@ let Engine = (function (global) {
         main();
     }
     /** 
-    * @description checks for collision between enemy and player. If collision happened player lost the game.
+    * @description checks for collision between enemy and player. If collision happened player 
+    * has lost the game.
     * @function 
     */
     function checkCollisionBetweenPlayerAndEnemy() {
         let areCollided;
+        //compares player current x axis with enemy1, enemy2, enemy3 x axis
         let isCollidedWithEnemy1X =
             ((player.x - Math.floor(enemy1.x)) < 75)
             && ((player.x - Math.floor(enemy1.x)) > -75);
@@ -84,6 +86,7 @@ let Engine = (function (global) {
         let isCollidedWithEnemy3X =
             (player.x - Math.floor(enemy3.x) < 75)
             && ((player.x - Math.floor(enemy3.x)) > -75);
+        //compares player current y axis with enemy1, enemy2, enemy3 y axis            
         let isCollidedWithEnemy1Y =
             ((player.y - Math.floor(enemy1.y)) < 20)
             && ((player.y - Math.floor(enemy1.y)) > -20);
@@ -93,22 +96,17 @@ let Engine = (function (global) {
         let isCollidedWithEnemy3Y =
             ((player.y - Math.floor(enemy3.y)) < 20)
             && ((player.y - Math.floor(enemy3.y)) > -20);
-
+        // if player's x and y axis is the same as one of the enemy's x and y axis
+        // then player has lost the game
         areCollided =
             (isCollidedWithEnemy1X && isCollidedWithEnemy1Y)
             || (isCollidedWithEnemy2X && isCollidedWithEnemy2Y)
             || (isCollidedWithEnemy3X && isCollidedWithEnemy3Y);
         if (areCollided) {
-           
-            
            setTimeout(function(){
-              
                player.resetToInitialPos();
            }, 200);
-              
-          
         }
-       
     }
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
@@ -124,7 +122,6 @@ let Engine = (function (global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisionBetweenPlayerAndEnemy();
-        // checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -138,7 +135,6 @@ let Engine = (function (global) {
         allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
-        
     }
 
     /* This function initially draws the "game level", it will then call
